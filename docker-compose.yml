@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:10.2
+    environment:
+      MYSQL_DATABASE: "testedb"
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: mybb
+      MYSQL_USER: mybb
+      MYSQL_PASSWORD: changeme
+    ports:
+      - "3306:3306"
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-compose-network
+
+networks: 
+  mysql-compose-network:
+    driver: bridge
