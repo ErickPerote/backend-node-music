@@ -8,4 +8,6 @@ app.use(body_parser.urlencoded({extended: false}));
 
 routes(app);
 
-app.listen(8000)
+app.listen(8000, function(){
+    console.log("Server started")
+})

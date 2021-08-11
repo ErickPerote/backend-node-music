@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.string('singer', 255).notNullable();
         table.string('picture_path', 255).notNullable();
         table.string('category', 255).notNullable();
-    });  
+    });
 };
 
 exports.down = function(knex) {
