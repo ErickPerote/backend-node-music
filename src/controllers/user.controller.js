@@ -27,3 +27,33 @@ exports.auth = async function(req, res){
     }
 };
 
+
+exports.register = async function(req, res) {
+    try {
+        let handle_user = await knex('users').where({ email: req.body.email }).first()
+
+        if(handle_user){
+            return res.status(400).send("user already exists")
+        }
+
+        let password = hash.hashPassword(req.body.password)
+
+
+        let user = await knex('users').insert({ email: req.body.email, full_name: req.body.full_name })
+
+
+        await knex('passwords').insert({
+            salt: password.salt,
+            hash: password.hash,
+            user_id: user[0],
+            iterations: password.iterations
+        });
+
+        return res.status(200).send({
+            token: token.sign(user[0])
+        })
+
+    } catch(error) {
+        res.status(400).send("failed to create user")
+    }
+}
